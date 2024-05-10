@@ -1,38 +1,30 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, Animated, Button } from 'react-native';
+import React from 'react';
+import { View, Image, StyleSheet } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const App = () => {
-  const [fadeAnim] = useState(new Animated.Value(0));
-
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
-
   return (
-    <View style={styles.container}>
-      <Animated.Image
-        source={require('./assets/dia-logo.png')}
-        style={[styles.image, { opacity: fadeAnim }]}
-      />
-      <Button title="Fade In" onPress={fadeIn} />
+    <View style={[styles.container, { backgroundColor: 'white' }]}>
+      <Animatable.Image
+  delay={100}
+  animation="flipInY"
+  source={require("./assets/dia-logo.png")}
+
+/>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 50,
+    height: 60,
     resizeMode: 'contain',
   },
 });
