@@ -26,7 +26,7 @@ const App = () => {
         onPress={() => console.log("Botão 'Outro' pressionado")} // Ação quando o botão é pressionado
       >
         {/* Texto dentro do segundo botão */}
-        <Text style={styles.buttonText}>já tenho uma conta</Text>
+        <Text style={styles.buttonText}>Já tenho uma conta</Text>
       </TouchableOpacity>
     </View>
   );
