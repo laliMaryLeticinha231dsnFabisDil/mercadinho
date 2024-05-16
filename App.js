@@ -1,48 +1,39 @@
-import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
   return (
-    <View style={[styles.container, { backgroundColor: 'white' }]}>
-      <Animatable.Image
-        delay={1000}
-        animation="flipInY"
-        source={require("./assets/dia-logo.png")}
-        style={styles.image}
-      />
-      {/* Primeiro botão */}
-      <TouchableOpacity 
-        style={styles.button} // Estilo para o primeiro botão
-        onPress={() => console.log("Botão 'Começar' pressionado")} // Ação quando o botão é pressionado
-      >
-        {/* Texto dentro do primeiro botão */}
-        <Text style={styles.buttonText}>Faça seu login</Text>
-      </TouchableOpacity>
-      {/* Segundo botão */}
-      <TouchableOpacity 
-        style={[styles.button, { backgroundColor: '#5C0D14' }]} // Estilo para o segundo botão, com uma cor diferente
-        onPress={() => console.log("Botão 'Outro' pressionado")} // Ação quando o botão é pressionado
-      >
-        {/* Texto dentro do segundo botão */}
-        <Text style={styles.buttonText}>Já tenho uma conta</Text>
-      </TouchableOpacity>
-    </View>
+    <NavigationContainer> {/* Certifique-se de envolver seu aplicativo com o NavigationContainer */}
+      <MyApp />
+    </NavigationContainer>
   );
 };
 
+const MyApp = () => {
+  const navigation = useNavigation();
+  const animationRef = useRef(null);
 
-const Tab = createBottomTabNavigator();
+  const onAnimationEnd = () => {
+    // Navegar para a próxima tela após a animação
+    navigation.navigate('IndexPage');
+  };
 
-function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-    </Tab.Navigator>
+    <View style={[styles.container, { backgroundColor: 'white' }]}>
+      <Animatable.Image
+        ref={animationRef}
+        delay={100}
+        animation="flipInY"
+        source={require("./assets/dia-logo.png")}
+        style={styles.image}
+        onAnimationEnd={onAnimationEnd} // Chama a função após a animação terminar
+      />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -51,22 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 500, // Definindo a largura desejada
-    height: 100, // Definindo a altura desejada
-    resizeMode: 'contain',
-  },
-  button: {
-    top: 100,
-    backgroundColor: '#5C0D14', // Cor de fundo padrão para os botões
-    marginTop: 20, // Espaçamento entre a imagem e os botões
-    paddingVertical: 15, // Espaçamento vertical dentro dos botões
-    paddingHorizontal: 30, // Espaçamento horizontal dentro dos botões
-    borderRadius: 10, // Borda arredondada
-  },
-  buttonText: {
-    color: 'white', // Cor do texto
-    fontSize: 18, // Tamanho da fonte
-    fontWeight: 'bold', // Negrito
+    width: 100,
+    height: 120,
   },
 });
 
