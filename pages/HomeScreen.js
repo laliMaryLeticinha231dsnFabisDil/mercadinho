@@ -54,6 +54,8 @@
 
 
 // export default Carousel;
+
+
 import React, { useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 
@@ -75,14 +77,15 @@ const Carousel = () => {
   }, [images.length]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.primeiraCoisa}>
       <Image source={images[currentImageIndex]} style={styles.image} />
-      <View style={styles.lr}>
+      <View style={styles.estiloImagem}>
         <Image
           source={require('../assets/imagem.png')} // Caminho para a imagem
-          style={styles.ooo}
+          style={styles.ImagemEstilo}
         />
-        <Text style={styles.text}>Exemplo de texto</Text>
+        <Text style={styles.text}>FAÇA SUA 
+          COMPRA</Text>
       </View>
     </View>
   );
@@ -93,28 +96,34 @@ const styles = StyleSheet.create({
     flex: 4,
     alignItems: 'center',
   },
+  primeiraCoisa: {
+    alignItems: 'center',
+
+  }, //carrossel
   image: {
-    width: 410,
+    width: 440,
     height: 285,
     resizeMode: 'cover',
-  },
-  lr: {
+  },//caixaa vermelho
+  estiloImagem: {
     backgroundColor: '#B60918',
     borderRadius: 20,
-    width: 240,
-    height: 140,
+    width: 340,
+    height: 180,
     top: 50,
+    
 
-  },
-  ooo: {
-    width: 50,
-    height: 50,
+  },//icone da caixa vermelha
+  ImagemEstilo: {
+    width: 130,
+    height: 90,
     resizeMode: 'cover',
     marginBottom: 10,
 
   },
   text: {
-    fontSize: 18,
+    left: 130,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#FFFF',
   },
