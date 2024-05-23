@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, Button, Image, StyleSheet } fro
 
 const products = [
   { id: '1', name: 'Banana Prata', price: 10.99, image: require('../assets/banana.png') },
-  { id: '2', name: 'Maçã', price: 6.99, image: require('../assets/maca.png') },
+  { id: '2', name: 'Maçã', price: 6.99, image: require('../assets/maça.png') },
   { id: '3', name: 'Manga', price: 7.99, image: require('../assets/manga.png') },
   { id: '4', name: 'Laranja', price: 11.99, image: require('../assets/laranja.png') },
   { id: '5', name: 'Uva Verde', price: 11.99, image: require('../assets/uva.png') },
