@@ -7,13 +7,13 @@ const Stack = createStackNavigator();
 const products = [
   { id: '1', name: 'Pão Puma', price: 8.99, image: require('../assets/pao.png') },
   { id: '2', name: 'Bisnaguinha Panco', price: 7.99, image: require('../assets/bisnaguinha.png') },
-  { id: '3', name: 'Bolo Puma/sabor chocolate', price: 8.99, image: require('../assets/bolo-chocolate.png') },
-  { id: '4', name: 'Bolo Puma/sabor laranja', price: 8.99, image: require('../assets/bolo-laranja.png') },
+  { id: '3', name: 'Bolo Puma/sabor chocolate', price: 8.99, image: require('../assets/bolochocolate.png') },
+  { id: '4', name: 'Bolo Puma/sabor laranja', price: 8.99, image: require('../assets/bololaranja.png') },
   { id: '5', name: 'Oreo', price: 3.50, image: require('../assets/oreo.png') },
   { id: '6', name: 'Trakinas', price: 3.00, image: require('../assets/trakinas.png') },
   { id: '7', name: 'Bono', price: 3.25, image: require('../assets/bono.png') },
-  { id: '8', name: 'Club Social', price: 9.00, image: require('../assets/club-social.png') },
-  { id: '9', name: 'Bolacha Doce', price: 6.25, image: require('../assets/bolacha-doce.png') },
+  { id: '8', name: 'Club Social', price: 9.00, image: require('../assets/clubsocial.png') },
+  { id: '9', name: 'Bolacha Doce', price: 6.25, image: require('../assets/bolachadoce.png') },
   { id: '10', name: 'Sequilhos Banco', price: 11.50, image: require('../assets/sequilhos.png') },
   { id: '11', name: 'Cookies', price: 3.25, image: require('../assets/cookies.png') },
 ];

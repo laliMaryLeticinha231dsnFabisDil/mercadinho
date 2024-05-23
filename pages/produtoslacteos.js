@@ -10,7 +10,7 @@ const products = [
   { id: '3', name: 'Margarina', price: 10.99, image: require('../assets/margarina.png') },
   { id: '4', name: 'Requeijão', price: 8.90, image: require('../assets/requeijao.png') },
   { id: '5', name: 'Iorgurte Integral', price: 12.95, image: require('../assets/integral.png') },
-  { id: '6', name: 'Iorgute Natural', price: 3.75, image: require('../assets/natural.png') },
+  { id: '6', name: 'Iorgute Natural', price: 3.75, image: require('../assets/iourgute.png') },
   { id: '7', name: 'Danone Grego', price: 15.00, image: require('../assets/danone.png') },
   { id: '8', name: 'Doce de Leite', price: 7.99, image: require('../assets/docedeleite.png') },
   { id: '9', name: 'Leite Condensado', price: 5.75, image: require('../assets/leitecondensado.png') },
