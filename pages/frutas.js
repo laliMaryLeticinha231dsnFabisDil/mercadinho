@@ -27,6 +27,24 @@ const Frutas = ({ navigation }) => {
     });
   };
 
+  const increaseQuantity = (productId) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (productId) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === productId && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header1}>FRUTAS</Text>
@@ -40,12 +58,23 @@ const Frutas = ({ navigation }) => {
               <Text style={styles.productName}>{item.name}</Text>
               <Text>R$ {item.price.toFixed(2)}</Text>
             </View>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity onPress={() => decreaseQuantity(item.id)}>
+                <Text style={styles.quantityButton}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.quantity}>
+                {cart.find((cartItem) => cartItem.id === item.id)?.quantity || 0}
+              </Text>
+              <TouchableOpacity onPress={() => increaseQuantity(item.id)}>
+                <Text style={styles.quantityButton}>+</Text>
+              </TouchableOpacity>
+            </View>
             <Button title="Adicionar" onPress={() => addToCart(item)} color="#FFD166" />
           </View>
         )}
       />
       <TouchableOpacity
-        onPress={() => navigation.navigate('Cart', { cart })}
+        onPress={() => navigation.navigate('Carrinho', { cart })}
         style={styles.checkoutButton}
       >
         <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
@@ -91,6 +120,21 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  quantityButton: {
+    fontSize: 20,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  quantity: {
+    fontSize: 18,
+    marginHorizontal: 10,
   },
   checkoutButton: {
     backgroundColor: '#FFD166',

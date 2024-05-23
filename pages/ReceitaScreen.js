@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 50,
     marginRight: 10,
   },
   header: {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   line: {
     width: '90%',
     height: 2,
-    backgroundColor: '#E50000',
+    backgroundColor: '#000',
     marginBottom: 20,
   },
   subheader: {
