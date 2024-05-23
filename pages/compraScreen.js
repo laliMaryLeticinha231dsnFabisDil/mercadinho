@@ -1,25 +1,39 @@
+
+
+
+
+
 import React from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const categories = [
-  { name: 'FRUTAS', image: require('../assets/frutas.png') },
-  { name: 'GRÃOS E CEREAIS', image: require('../assets/graos_cereais.png') },
-  { name: 'PRODUTOS LÁCTEOS', image: require('../assets/produtos_lacteos.png') },
-  { name: 'LEGUMES E VEGETAIS', image: require('../assets/legumes_vegetais.png') },
-  { name: 'PRODUTOS PANIFICAÇÃO', image: require('../assets/produtos_panificacao.png') },
-  { name: 'PRODUTOS PROCESSADOS', image: require('../assets/produtos_processados.png') },
-  { name: 'CARNES', image: require('../assets/carnes.png') },
-  { name: 'HIGIENE PESSOAL', image: require('../assets/higiene_pessoal.png') },
-  { name: 'PRODUTOS DE LIMPEZA', image: require('../assets/produtos_limpeza.png') },
+  { name: 'FRUTAS', image: require('../assets/frutas.png'), screen: 'Frutas' },
+  { name: 'GRÃOS E CEREAIS', image: require('../assets/graos_cereais.png'), screen: 'GraosECereais' },
+  { name: 'PRODUTOS LÁCTEOS', image: require('../assets/produtos_lacteos.png'), screen: 'ProdutosLacteos' },
+  { name: 'LEGUMES E VEGETAIS', image: require('../assets/legumes_vegetais.png'), screen: 'LegumesEVegetais' },
+  { name: 'PRODUTOS PANIFICAÇÃO', image: require('../assets/produtos_panificacao.png'), screen: 'ProdutosPanificacao' },
+  { name: 'PRODUTOS PROCESSADOS', image: require('../assets/produtos_processados.png'), screen: 'ProdutosProcessados' },
+  { name: 'CARNES', image: require('../assets/carnes.png'), screen: 'Carnes' },
+  { name: 'HIGIENE PESSOAL', image: require('../assets/higiene_pessoal.png'), screen: 'HigienePessoal' },
+  { name: 'PRODUTOS DE LIMPEZA', image: require('../assets/produtos_limpeza.png'), screen: 'ProdutosLimpeza' },
 ];
 
-const CompraScreen = () => {
+const CompraScreen = ({ route }) => {
+  const { valor } = route.params || {};
+  const navigation = useNavigation();
+
+  const handleCategoryPress = (screen) => {
+    navigation.navigate(screen);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>CATEGORIAS</Text>
+      {valor && <Text style={styles.valor}>Valor da Compra: {valor}</Text>}
       <View style={styles.grid}>
         {categories.map((category, index) => (
-          <TouchableOpacity key={index} style={styles.item}>
+          <TouchableOpacity key={index} style={styles.item} onPress={() => handleCategoryPress(category.screen)}>
             <Image source={category.image} style={styles.image} />
             <Text style={styles.label}>{category.name}</Text>
           </TouchableOpacity>
@@ -40,6 +54,12 @@ const styles = StyleSheet.create({
     color: '#E50000',
     textAlign: 'center',
     marginVertical: 20,
+  },
+  valor: {
+    fontSize: 18,
+    color: '#E50000',
+    textAlign: 'center',
+    marginBottom: 10,
   },
   grid: {
     flexDirection: 'row',
