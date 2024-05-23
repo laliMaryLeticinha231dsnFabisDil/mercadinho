@@ -31,12 +31,12 @@ const CompraIntermediariaScreen = () => {
             onChangeText={setValor}
             keyboardType="numeric"
           />
-          <Button title="Avançar" onPress={handleNext} />
+          <Button title="Avançar" onPress={handleNext} style={styles.button} />
         </>
       ) : (
         <>
-          <Button title="Sim" onPress={handleYes} />
-          <Button title="Não" onPress={handleNo} />
+          <Button title="Sim" onPress={handleYes} style={styles.button} />
+          <Button title="Não" onPress={handleNo} style={styles.button} />
         </>
       )}
     </View>
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   question: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: 38,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
@@ -60,6 +60,10 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '80%',
     marginBottom: 20,
+  },
+  button: {
+    width: '0%',
+    marginVertical: 10,
   },
 });
 

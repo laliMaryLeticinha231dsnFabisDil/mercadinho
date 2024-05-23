@@ -10,3 +10,8 @@ const CarrinhoScreen = () => {
 }
 
 export default CarrinhoScreen;
+
+
+
+
+

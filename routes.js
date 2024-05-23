@@ -6,19 +6,19 @@ import HomeScreen from './pages/HomeScreen';
 import CarrinhoScreen from './pages/carrinhoScreen';
 import CalculadoraScreen from './pages/CalculadoraScreen';
 import PerfilScreen from './pages/PerfilScreen';
-import CompraScreen from './pages/CompraScreen';
+import CompraScreen from './pages/compraScreen';
 import HistoricoScreen from './pages/HistoricoScreen';
 import ReceitaScreen from './pages/ReceitaScreen';
 import CadastroScreen from './pages/CadastroScreen';
 import CompraIntermediariaScreen from './pages/CompraIntermediariaScreen';
-import Frutas from './pages/frutas';  // Importar todas as novas telas
-import GraosECereais from './pages/graisecereais';
+import Frutas from './pages/frutas';
+import GraosECereais from './pages/graosecereais';
 import ProdutosLacteos from './pages/produtoslacteos';
 import LegumesEVegetais from './pages/legumes';
 import ProdutosPanificacao from './pages/produtospanificados';
 import ProdutosProcessados from './pages/produtosprocessados';
 import Carnes from './pages/carnes';
-import HigienePessoal from './pages/produtoshigienicos';
+import HigienePessoal from './pages/higienepessoal';
 import ProdutosLimpeza from './pages/produtosdelimpeza';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -32,14 +32,14 @@ const HomeStack = () => {
       <Stack.Screen name="CompraIntermediaria" component={CompraIntermediariaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Compra" component={CompraScreen} options={{ headerShown: false }} />
       <Stack.Screen name="frutas" component={Frutas} options={{ headerShown: false }} />
-      <Stack.Screen name="graisecereais" component={GraosECereais} options={{ headerShown: false }} />
-      <Stack.Screen name="ProdutosLacteos" component={ProdutosLacteos} options={{ headerShown: false }} />
-      <Stack.Screen name="LegumesEVegetais" component={LegumesEVegetais} options={{ headerShown: false }} />
-      <Stack.Screen name="ProdutosPanificacao" component={ProdutosPanificacao} options={{ headerShown: false }} />
-      <Stack.Screen name="ProdutosProcessados" component={ProdutosProcessados} options={{ headerShown: false }} />
-      <Stack.Screen name="Carnes" component={Carnes} options={{ headerShown: false }} />
-      <Stack.Screen name="HigienePessoal" component={HigienePessoal} options={{ headerShown: false }} />
-      <Stack.Screen name="ProdutosLimpeza" component={ProdutosLimpeza} options={{ headerShown: false }} />
+      <Stack.Screen name="graosecereais" component={GraosECereais} options={{ headerShown: false }} />
+      <Stack.Screen name="produtoslacteos" component={ProdutosLacteos} options={{ headerShown: false }} />
+      <Stack.Screen name="legumes" component={LegumesEVegetais} options={{ headerShown: false }} />
+      <Stack.Screen name="produtospanificados" component={ProdutosPanificacao} options={{ headerShown: false }} />
+      <Stack.Screen name="produtosprocessados" component={ProdutosProcessados} options={{ headerShown: false }} />
+      <Stack.Screen name="carnes" component={Carnes} options={{ headerShown: false }} />
+      <Stack.Screen name="higienepessoal" component={HigienePessoal} options={{ headerShown: false }} />
+      <Stack.Screen name="produtosdelimpeza" component={ProdutosLimpeza} options={{ headerShown: false }} />
       <Stack.Screen name="Historico" component={HistoricoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
@@ -125,3 +125,9 @@ const Routes = () => {
 };
 
 export default Routes;
+
+
+
+
+
+

@@ -6,19 +6,16 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button, Image } fro
 const Stack = createStackNavigator();
 
 const products = [
-  { id: '1', name: 'Batata', price: 6.99, image: require('../assets/batata.png') },
-  { id: '2', name: 'Cenoura', price: 5.00, image: require('../assets/cenoura.png') },
-  { id: '3', name: 'Beterraba', price: 7.99, image: require('../assets/beterraba.png') },
-  { id: '4', name: 'Cebola', price: 4.99, image: require('../assets/cebola.png') },
-  { id: '5', name: 'Pimentão', price: 4.99, image: require('../assets/pimentao.png') },
-  { id: '6', name: 'Brócolis', price: 9.00, image: require('../assets/brocolis.png') },
-  { id: '7', name: 'Alface', price: 3.99, image: require('../assets/alface.png') },
-  { id: '8', name: 'Alface Americano', price: 4.99, image: require('../assets/alfaceamericano.png') },
-  { id: '9', name: 'Tomate', price: 5.99, image: require('../assets/tomate.png') },
+  { id: '1', name: 'Pasta de Dente', price: 4.45, image: require('../assets/colgate.png') },
+  { id: '2', name: 'Sabonete', price: 3.99, image: require('../assets/sabonete.png') },
+  { id: '3', name: 'Escova de Dente', price: 15.99, image: require('../assets/dente.png') },
+  { id: '4', name: 'Kit Elseve', price: 32.99, image: require('../assets/elseve.png') },
+  { id: '5', name: 'Escova de Cabelo', price: 25.99, image: require('../assets/escovacabelo.png') },
+  
 
 ];
 
-const legumes = ({ navigation }) => {
+const higiene = ({ navigation }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
@@ -113,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default legumes;
+export default higiene;

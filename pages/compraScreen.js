@@ -1,22 +1,17 @@
-
-
-
-
-
 import React from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const categories = [
-  { name: 'FRUTAS', image: require('../assets/frutas.png'), screen: 'Frutas' },
-  { name: 'GRÃOS E CEREAIS', image: require('../assets/graos_cereais.png'), screen: 'GraosECereais' },
-  { name: 'PRODUTOS LÁCTEOS', image: require('../assets/produtos_lacteos.png'), screen: 'ProdutosLacteos' },
-  { name: 'LEGUMES E VEGETAIS', image: require('../assets/legumes_vegetais.png'), screen: 'LegumesEVegetais' },
-  { name: 'PRODUTOS PANIFICAÇÃO', image: require('../assets/produtos_panificacao.png'), screen: 'ProdutosPanificacao' },
-  { name: 'PRODUTOS PROCESSADOS', image: require('../assets/produtos_processados.png'), screen: 'ProdutosProcessados' },
-  { name: 'CARNES', image: require('../assets/carnes.png'), screen: 'Carnes' },
-  { name: 'HIGIENE PESSOAL', image: require('../assets/higiene_pessoal.png'), screen: 'HigienePessoal' },
-  { name: 'PRODUTOS DE LIMPEZA', image: require('../assets/produtos_limpeza.png'), screen: 'ProdutosLimpeza' },
+  { name: 'FRUTAS', image: require('../assets/frutas.png'), screen: 'frutas' },
+  { name: 'GRÃOS E CEREAIS', image: require('../assets/graos_cereais.png'), screen: 'graosecereais' },
+  { name: 'PRODUTOS LÁCTEOS', image: require('../assets/produtos_lacteos.png'), screen: 'produtoslacteos' },
+  { name: 'LEGUMES E VEGETAIS', image: require('../assets/legumes_vegetais.png'), screen: 'legumes' },
+  { name: 'PRODUTOS PANIFICAÇÃO', image: require('../assets/produtos_panificacao.png'), screen: 'produtospanificados' },
+  { name: 'PRODUTOS PROCESSADOS', image: require('../assets/produtos_processados.png'), screen: 'produtosprocessados' },
+  { name: 'CARNES', image: require('../assets/carnes.png'), screen: 'carnes' },
+  { name: 'HIGIENE PESSOAL', image: require('../assets/higiene_pessoal.png'), screen: 'higienepessoal' },
+  { name: 'PRODUTOS DE LIMPEZA', image: require('../assets/produtos_limpeza.png'), screen: 'produtosdelimpeza' },
 ];
 
 const CompraScreen = ({ route }) => {
@@ -30,11 +25,12 @@ const CompraScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>CATEGORIAS</Text>
+      <View style={styles.separator} />
       {valor && <Text style={styles.valor}>Valor da Compra: {valor}</Text>}
       <View style={styles.grid}>
         {categories.map((category, index) => (
           <TouchableOpacity key={index} style={styles.item} onPress={() => handleCategoryPress(category.screen)}>
-            <Image source={category.image} style={styles.image} />
+            <Image source={category.image} style={[styles.image, category.name === 'PRODUTOS PANIFICAÇÃO' ? styles.bakeryImage : null]} />
             <Text style={styles.label}>{category.name}</Text>
           </TouchableOpacity>
         ))}
@@ -52,8 +48,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#E50000',
-    textAlign: 'center',
-    marginVertical: 20,
+    textAlign: 'rigth',
+    marginLeft: 20,
+    marginTop: 40,
+    marginVertical: 17,
+  },
+  separator: { //linha
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    marginBottom: 25,
+    marginLeft: 80,
+    width: 350,
   },
   valor: {
     fontSize: 18,
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   item: {
-    width: '40%',
+    width: '44%',
     aspectRatio: 1,
     backgroundColor: '#F0F0F0',
     borderRadius: 10,
@@ -77,9 +82,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
     marginBottom: 10,
+  },
+  bakeryImage: {
+    width: 90, // Ajuste apenas para a imagem de produtos panificação
   },
   label: {
     fontSize: 14,

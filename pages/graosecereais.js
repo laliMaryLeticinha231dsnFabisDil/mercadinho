@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button, Image } from 'react-native';
-
-const Stack = createStackNavigator();
+import { View, Text, FlatList, TouchableOpacity, Button, Image, StyleSheet } from 'react-native';
 
 const products = [
-  { id: '1', name: 'Batata', price: 6.99, image: require('../assets/batata.png') },
-  { id: '2', name: 'Cenoura', price: 5.00, image: require('../assets/cenoura.png') },
-  { id: '3', name: 'Beterraba', price: 7.99, image: require('../assets/beterraba.png') },
-  { id: '4', name: 'Cebola', price: 4.99, image: require('../assets/cebola.png') },
-  { id: '5', name: 'Pimentão', price: 4.99, image: require('../assets/pimentao.png') },
-  { id: '6', name: 'Brócolis', price: 9.00, image: require('../assets/brocolis.png') },
-  { id: '7', name: 'Alface', price: 3.99, image: require('../assets/alface.png') },
-  { id: '8', name: 'Alface Americano', price: 4.99, image: require('../assets/alfaceamericano.png') },
-  { id: '9', name: 'Tomate', price: 5.99, image: require('../assets/tomate.png') },
-
+  { id: '1', name: 'Arroz', price: 34.00, image: require('../assets/arroz.png') },
+  { id: '2', name: 'Feijão', price: 7.99, image: require('../assets/feijao.png') },
+  { id: '3', name: 'Açúcar', price: 5.99, image: require('../assets/acucar.png') },
+  { id: '4', name: 'Milho para Pipoca', price: 8.90, image: require('../assets/pipoca.png') },
+  { id: '5', name: 'Farinha de Trigo', price: 4.90, image: require('../assets/trigo.png') },
+  { id: '6', name: 'Farinha de Aveia', price: 9.99, image: require('../assets/aveia.png') },
+  { id: '7', name: 'Granola', price: 15.00, image: require('../assets/granola.png') },
+  { id: '8', name: 'Espaguete N°8', price: 4.99, image: require('../assets/espaguete.png') },
+  { id: '9', name: 'Macarrão Pena', price: 4.99, image: require('../assets/pena.png') },
+  { id: '10', name: 'Macarrão Parafuso', price: 4.99, image: require('../assets/parafuso.png') },
+  { id: '11', name: 'Massa de Bolo sabor chocolate', price: 7.99, image: require('../assets/massachocolate.png') },
+  { id: '12', name: 'Massa de Bolo sabor baunilha', price: 7.99, image: require('../assets/massabaunilha.png') },
+  { id: '13', name: 'Massa de Bolo sabor laranja', price: 7.99, image: require('../assets/massalaranja.png') },
+  { id: '14', name: 'Cereal nestle', price: 9.99, image: require('../assets/nescau.png') },
+  { id: '15', name: 'Sucrilhos', price: 9.99, image: require('../assets/sucrilhos.png') },
 ];
 
-const legumes = ({ navigation }) => {
+const graos = ({ navigation }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
@@ -113,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default legumes;
+export default graos;
