@@ -1,72 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CarrinhoScreen = ({ route }) => {
-  const { cart } = route.params;
-  const [products, setProducts] = useState([]);
+const CarrinhoScreen = ({ navigation }) => {
+  const [carrinho, setCarrinho] = useState([]);
 
   useEffect(() => {
-    // Atualize a lista de produtos com base nos itens do carrinho
-    const fetchedProducts = cart.map(item => ({
-      ...item,
-      ...products.find(product => product.id === item.id)
-    }));
-    setProducts(fetchedProducts);
-  }, [cart]);
-
-  const handleQuantityChange = async (index, newQuantity) => {
-    try {
-      const updatedCart = [...cart];
-      updatedCart[index].quantity = newQuantity;
-      await AsyncStorage.setItem('@cart', JSON.stringify(updatedCart));
-      // Atualize os produtos com base no carrinho atualizado
-      const fetchedProducts = updatedCart.map(item => ({
-        ...item,
-        ...products.find(product => product.id === item.id)
-      }));
-      setProducts(fetchedProducts);
-    } catch (error) {
-      console.error('Error updating quantity:', error);
+    async function loadCarrinho() {
+      const storedCarrinho = await AsyncStorage.getItem('carrinho');
+      if (storedCarrinho) {
+        setCarrinho(JSON.parse(storedCarrinho));
+      } else {
+        // Se não houver carrinho armazenado, use um carrinho vazio
+        setCarrinho([]);
+      }
     }
+    loadCarrinho();
+  }, []);
+
+  const atualizarQuantidade = async (produtoId, quantidade) => {
+    const updatedCarrinho = carrinho.map(item =>
+      item.id === produtoId ? { ...item, quantidade: quantidade } : item
+    );
+    await AsyncStorage.setItem('carrinho', JSON.stringify(updatedCarrinho));
+    setCarrinho(updatedCarrinho);
+  };
+
+  const aumentarQuantidade = async (produtoId) => {
+    atualizarQuantidade(produtoId, carrinho.find(item => item.id === produtoId).quantidade + 1);
+  };
+
+  const diminuirQuantidade = async (produtoId) => {
+    atualizarQuantidade(produtoId, Math.max(0, carrinho.find(item => item.id === produtoId).quantidade - 1));
+  };
+
+  const removerDoCarrinho = async (produtoId) => {
+    atualizarQuantidade(produtoId, 0);
+  };
+
+  const calcularTotal = () => {
+    return carrinho.reduce((total, produto) => total + (produto.preco * produto.quantidade), 0).toFixed(2);
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
-        data={products}
+        data={carrinho.filter(item => item.quantidade > 0)}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => (
-          <View style={styles.itemContainer}>
-            <Image source={item.image} style={styles.productImage} />
-            <Text>{item.name}</Text>
-            <Text>Quantidade: {item.quantity}</Text>
-            <Button title="Aumentar" onPress={() => handleQuantityChange(index, item.quantity + 1)} />
-            <Button title="Diminuir" onPress={() => handleQuantityChange(index, Math.max(item.quantity - 1, 0))} />
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.nome} - R${item.preco.toFixed(2)}</Text>
+            <Text>Quantidade: {item.quantidade}</Text>
+            <Button title="Aumentar" onPress={() => aumentarQuantidade(item.id)} />
+            <Button title="Diminuir" onPress={() => diminuirQuantidade(item.id)} />
+            <Button title="Remover" onPress={() => removerDoCarrinho(item.id)} />
           </View>
         )}
       />
+      <Text>Total: R${calcularTotal()}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  itemContainer: {
-    marginBottom: 20,
-    padding: 10,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  productImage: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
-  },
-});
 
 export default CarrinhoScreen;
