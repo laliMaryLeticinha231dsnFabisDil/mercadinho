@@ -8,7 +8,7 @@ const products = [
   { id: '4', name: 'Milho para Pipoca', price: 8.90, image: require('../assets/pipoca.png') },
   { id: '5', name: 'Farinha de Trigo', price: 4.90, image: require('../assets/trigo.png') },
   { id: '6', name: 'Farinha de Aveia', price: 9.99, image: require('../assets/aveia.png') },
-  // { id: '7', name: 'Granola', price: 15.00, image: require('../assets/granola.png') },
+  { id: '7', name: 'Granola', price: 15.00, image: require('../assets/granola.png') },
   { id: '8', name: 'Espaguete N°8', price: 4.99, image: require('../assets/espaguete.png') },
   { id: '9', name: 'Macarrão Pena', price: 4.99, image: require('../assets/pena.png') },
   { id: '10', name: 'Macarrão Parafuso', price: 4.99, image: require('../assets/parafuso.png') },

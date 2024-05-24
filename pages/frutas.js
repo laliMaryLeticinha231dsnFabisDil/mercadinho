@@ -47,45 +47,57 @@ const Frutas = ({ navigation }) => {
       }
     });
   };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header1}>FRUTAS</Text>
-      </View>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.product}>
-            <Image source={item.image} style={styles.image} />
-            <View style={styles.productInfo}>
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text>R$ {item.price.toFixed(2)}</Text>
-            </View>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity onPress={() => decreaseQuantity(item.id)}>
-                <Text style={styles.quantityButton}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>
-                {cart.find((cartItem) => cartItem.id === item.id)?.quantity || 0}
-              </Text>
-              <TouchableOpacity onPress={() => increaseQuantity(item.id)}>
-                <Text style={styles.quantityButton}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <Button title="Adicionar" onPress={() => addToCart(item)} color="#FFD166" />
-          </View>
-        )}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Carrinho', { cart })}
-        style={styles.checkoutButton}
-      >
-        <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
-      </TouchableOpacity>
+  const zeroQuantity = (productId) => {
+    setCart((prevCart) => {
+      const item = prevCart.find((item) => item.id === productId);
+      if (item && item.quantity > 1) {
+        return prevCart.map((item) =>
+          item.id === productId ? { ...item, quantity: item.quantity - item.quantity} : item
+        );
+      } else {
+        return prevCart.filter((item) => item.id !== productId);
+      }
+    });
+  };
+ 
+return (
+  <View style={styles.container}>
+    <View style={styles.headerContainer}>
+      <Text style={styles.header1}>FRUTAS</Text>
     </View>
-  );
+    <FlatList
+      data={products}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View style={styles.product}>
+          <Image source={item.image} style={styles.image} />
+          <View style={styles.productInfo}>
+            <Text style={styles.productName}>{item.name}</Text>
+            <Text>R$ {item.price.toFixed(2)}</Text>
+          </View>
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity onPress={() => decreaseQuantity(item.id)}>
+              <Text style={styles.quantityButton}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantity}>
+              {cart.find((cartItem) => cartItem.id === item.id)?.quantity || 0}
+            </Text>
+            <TouchableOpacity onPress={() => increaseQuantity(item.id)}>
+              <Text style={styles.quantityButton}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <Button title="Adicionar" onPress={() => addToCart(item)} color="#FFD166" />
+        </View>
+      )}
+    />
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Carrinho', { cart })}
+      style={styles.checkoutButton}
+    >
+      <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
+    </TouchableOpacity>
+  </View>
+);
 };
 
 const styles = StyleSheet.create({

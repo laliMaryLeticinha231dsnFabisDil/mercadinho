@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 const CarrinhoScreen = ({ route, navigation }) => {
   const [cart, setCart] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
     if (route.params && route.params.cart) {
       setCart(route.params.cart);
     }
