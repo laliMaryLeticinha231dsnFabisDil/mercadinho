@@ -30,7 +30,7 @@ const HomeScreen = () => {
       <View style={styles.primeiraCoisa}>
         <Image source={images[currentImageIndex]} style={styles.image} />
 
-        <TouchableOpacity onPress={() => handleNavigate('CompraIntermediaria')}>
+        <TouchableOpacity onPress={() => handleNavigate('Compra')}>
           <View style={styles.estiloImagem}>
             <Image
               source={require('../assets/imagem.png')}
@@ -56,7 +56,7 @@ const HomeScreen = () => {
               source={require('../assets/imagem3.png')}
               style={styles.ImagemEstiloTres}
             />
-            <Text style={styles.text}>VEJA SEU{"\n" }  PERFIL!</Text>
+            <Text style={styles.text}>VEJA SEU{"\n"}PERFIL!</Text>
           </View>
         </TouchableOpacity>
 

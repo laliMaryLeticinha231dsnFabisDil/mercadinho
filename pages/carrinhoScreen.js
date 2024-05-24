@@ -1,74 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, Button, FlatList, Image, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CarrinhoScreen = ({ route, navigation }) => {
-  const [cart, setCart] = useState([]);
+const CarrinhoScreen = ({ route }) => {
+  const { cart } = route.params;
+  const [products, setProducts] = useState([]);
 
-useEffect(() => {
-    if (route.params && route.params.cart) {
-      setCart(route.params.cart);
+  useEffect(() => {
+    // Atualize a lista de produtos com base nos itens do carrinho
+    const fetchedProducts = cart.map(item => ({
+      ...item,
+      ...products.find(product => product.id === item.id)
+    }));
+    setProducts(fetchedProducts);
+  }, [cart]);
+
+  const handleQuantityChange = async (index, newQuantity) => {
+    try {
+      const updatedCart = [...cart];
+      updatedCart[index].quantity = newQuantity;
+      await AsyncStorage.setItem('@cart', JSON.stringify(updatedCart));
+      // Atualize os produtos com base no carrinho atualizado
+      const fetchedProducts = updatedCart.map(item => ({
+        ...item,
+        ...products.find(product => product.id === item.id)
+      }));
+      setProducts(fetchedProducts);
+    } catch (error) {
+      console.error('Error updating quantity:', error);
     }
-  }, [route.params]);
-
-  const removeItem = (productId) => {
-    const updatedCart = cart.filter((item) => item.id !== productId);
-    setCart(updatedCart);
-  };
-
-  const increaseQuantity = (productId) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const decreaseQuantity = (productId) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const getTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Carrinho</Text>
       <FlatList
-        data={cart}
+        data={products}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.product}>
-            <Image source={item.image} style={styles.image} />
-            <View style={styles.productInfo}>
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text>R$ {item.price.toFixed(2)}</Text>
-              <View style={styles.quantityContainer}>
-                <TouchableOpacity onPress={() => decreaseQuantity(item.id)}>
-                  <Ionicons name="remove-circle-outline" size={24} color="black" />
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{item.quantity}</Text>
-                <TouchableOpacity onPress={() => increaseQuantity(item.id)}>
-                  <Ionicons name="add-circle-outline" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <TouchableOpacity onPress={() => removeItem(item.id)}>
-              <Ionicons name="trash-bin-outline" size={24} color="red" />
-            </TouchableOpacity>
+        renderItem={({ item, index }) => (
+          <View style={styles.itemContainer}>
+            <Image source={item.image} style={styles.productImage} />
+            <Text>{item.name}</Text>
+            <Text>Quantidade: {item.quantity}</Text>
+            <Button title="Aumentar" onPress={() => handleQuantityChange(index, item.quantity + 1)} />
+            <Button title="Diminuir" onPress={() => handleQuantityChange(index, Math.max(item.quantity - 1, 0))} />
           </View>
         )}
       />
-      <View style={styles.totalContainer}>
-        <Text style={styles.totalText}>Total: R$ {getTotal()}</Text>
-      </View>
     </View>
   );
 };
@@ -76,53 +53,19 @@ useEffect(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  product: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  productInfo: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  productName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  quantity: {
-    fontSize: 18,
-    marginHorizontal: 10,
-  },
-  totalContainer: {
-    marginTop: 20,
     padding: 10,
+  },
+  itemContainer: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#f9f9f9',
     borderRadius: 5,
     alignItems: 'center',
-    backgroundColor: '#FFD166',
   },
-  totalText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
+  productImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
   },
 });
 

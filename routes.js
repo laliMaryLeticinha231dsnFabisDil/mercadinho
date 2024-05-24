@@ -10,7 +10,6 @@ import CompraScreen from './pages/compraScreen';
 import HistoricoScreen from './pages/HistoricoScreen';
 import ReceitaScreen from './pages/ReceitaScreen';
 import CadastroScreen from './pages/CadastroScreen';
-import CompraIntermediariaScreen from './pages/CompraIntermediariaScreen';
 import Frutas from './pages/frutas';
 import GraosECereais from './pages/graosecereais';
 import ProdutosLacteos from './pages/produtoslacteos';
@@ -29,7 +28,6 @@ const HomeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CompraIntermediaria" component={CompraIntermediariaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Compra" component={CompraScreen} options={{ headerShown: false }} />
       <Stack.Screen name="frutas" component={Frutas} options={{ headerShown: false }} />
       <Stack.Screen name="graosecereais" component={GraosECereais} options={{ headerShown: false }} />
@@ -43,6 +41,7 @@ const HomeStack = () => {
       <Stack.Screen name="Historico" component={HistoricoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
@@ -52,7 +51,7 @@ const Routes = () => {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused, color }) => {
             let iconName;
 
             if (route.name === 'Home') {
@@ -71,19 +70,10 @@ const Routes = () => {
         tabBarOptions={{
           activeTintColor: '#5C0D14',
           inactiveTintColor: 'gray',
-          justifyContent: 'center',
-          tabBarStyle: {
+          showLabel: false,
+          style: {
             borderTopWidth: 10,
             borderTopColor: '#E5E5E5',
-          },
-          tabStyle: {
-            justifyContent: 'center',
-          },
-          labelStyle: {
-            display: 'none',
-          },
-          iconStyle: {
-            marginTop: 5,
           },
         }}
       >
@@ -125,9 +115,3 @@ const Routes = () => {
 };
 
 export default Routes;
-
-
-
-
-
-
