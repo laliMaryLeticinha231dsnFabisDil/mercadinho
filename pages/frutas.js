@@ -6,11 +6,9 @@ const initialFrutas = [
   { id: '1', nome: 'Maçã', imagem: 'https://via.placeholder.com/100', preco: 2.00, quantidade: 0 },
   { id: '2', nome: 'Banana', imagem: 'https://via.placeholder.com/100', preco: 1.00, quantidade: 0 },
   { id: '3', nome: 'Laranja', imagem: 'https://via.placeholder.com/100', preco: 1.50, quantidade: 0 },
-  { id: '4', nome: 'Morango', imagem: 'https://via.placeholder.com/100', preco: 1.50, quantidade: 0 },
-  { id: '5', nome: 'Pêra', imagem: 'https://via.placeholder.com/100', preco: 2.50, quantidade: 0 },
-  { id: '6', nome: 'Abacaxi', imagem: 'https://via.placeholder.com/100', preco: 3.00, quantidade: 0 },
-  { id: '7', nome: 'Uva', imagem: 'https://via.placeholder.com/100', preco: 2.20, quantidade: 0 },
+  { id: '4', nome: 'Morango', imagem: 'https://via.placeholder.com/100', preco: 1.50, quantidade: 0 }, // Alterando o nome para 'Morango' como exemplo
 ];
+
 
 const Frutas = ({ navigation }) => {
   const [frutas, setFrutas] = useState(initialFrutas);
@@ -95,26 +93,28 @@ const Frutas = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.product}>
-            <View style={styles.productDetails}>
-              <Image source={{ uri: item.imagem }} style={styles.image} />
-              <View style={styles.descriptionContainer}>
-                <Text style={styles.productName}>{item.nome}</Text>
-                <Text style={styles.productPrice}>Preço: R$ {item.preco.toFixed(2)}</Text>
-              </View>
-            </View>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity onPress={() => updateFrutas(item.id, -1)}>
-                <Text style={styles.button}>-</Text>
-              </TouchableOpacity>
-              <Text>{item.quantidade}</Text>
-              <TouchableOpacity onPress={() => updateFrutas(item.id, 1)}>
-                <Text style={styles.button}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.button} onPress={() => addToCart(item)}>
-              <Text style={styles.buttonText}>Adicionar</Text>
-            </TouchableOpacity>
-          </View>
+  <View style={styles.productDetails}>
+    <Image source={{ uri: item.imagem }} style={styles.image} />
+    <View style={styles.descriptionContainer}>
+      <Text style={styles.productName}>{item.nome}</Text>
+      <Text style={styles.productPrice}>Preço: R$ {item.preco.toFixed(2)}</Text>
+    </View>
+  </View>
+  <View style={styles.quantityContainer}>
+    <TouchableOpacity onPress={() => updateFrutas(item.id, -1)}>
+      <Text style={styles.button}>-</Text>
+    </TouchableOpacity>
+    <Text>{item.quantidade}</Text>
+    <TouchableOpacity onPress={() => updateFrutas(item.id, 1)}>
+      <Text style={styles.button}>+</Text>
+    </TouchableOpacity>
+  </View>
+  <TouchableOpacity style={styles.button} onPress={() => addToCart(item)}>
+    <Text style={styles.buttonText}>Adicionar</Text>
+  </TouchableOpacity>
+</View>
+
+        
         )}
       />
       <Button title="Ir para o Carrinho" onPress={() => navigation.navigate('Carrinho', { resetQuantities })} />
@@ -128,8 +128,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   product: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 20,
   },
   image: {
@@ -168,6 +166,11 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     color: '#fff',
   },
+  product: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   productDetails: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -176,8 +179,15 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginLeft: 10,
   },
-
-
+  productName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  productPrice: {
+    fontSize: 16,
+    color: '#888',
+  },
+  
 });
 
-export default Frutas;
+/*export default Frutas;*/

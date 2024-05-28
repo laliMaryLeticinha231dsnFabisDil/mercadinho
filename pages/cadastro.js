@@ -6,41 +6,37 @@ import * as Animatable from 'react-native-animatable';
 export default function Acesso() {
     const navigation = useNavigation();
 
+
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
     const handleLogin = () => {
-        if (email === 'usuario@example.com' && senha === 'senha123') {
+
+        if(email === "" | senha === "") {
             navigation.navigate('index');
-            Alert.alert('Sucesso', 'Login realizado com sucesso.');
+
+            Alert.alert("Preencha todos os campos");
+
         } else {
-            Alert.alert('Erro', 'Credenciais inválidas. Por favor, tente novamente.');
+
+            Alert.alert("Cadastro concluido com sucesso, receba ofertas impendiveis ");
         }
     };
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={styles.container} >
+                <View style={styles.container}>
                     <View style={styles.containerLogo}>
                         <Animatable.Image
-                           
-                            source={require("../assets/mercado.png")}
-                            style={styles.mercado}
-                          
-                        />
 
-                    </View>
-                   <View style={styles.containerLogo}>
-                        <Animatable.Image
-                           
                             source={require("../assets/login.png")}
                             style={styles.login}
-                          
+
                         />
                     </View>
                     <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
-                        <Text style={styles.message}></Text>
+                        <Text style={styles.message}>Faça seu cadastro para ficar por dentro de todas nossas ofertas!</Text>
                     </Animatable.View>
                     <Animatable.View animation="fadeInUp" style={styles.containerForm}>
                         <Text style={styles.title}>E-mail</Text>
@@ -58,11 +54,19 @@ export default function Acesso() {
                             value={senha}
                             secureTextEntry
                         />
+                        <Text style={styles.title}>Senha</Text>
+                        <TextInput
+                            placeholder='Confirme sua senha'
+                            style={styles.input}
+                            onChangeText={setSenha}
+                            value={senha}
+                            secureTextEntry
+                        />
                         <TouchableOpacity style={styles.button} onPress={handleLogin}>
                             <Text style={styles.buttonText}>Acessar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('cadastro')} style={styles.buttonRegister}>
-                            <Text style={styles.registerText}>Não possui uma conta? Cadastre-se</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('entrada')} style={styles.buttonRegister}>
+                            <Text style={styles.registerText}>Já possui uma conta? Clique aqui para entrar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('index')}>
                             <Text style={styles.buttonVoltar}>Voltar ao inicio</Text>
@@ -75,53 +79,41 @@ export default function Acesso() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 0,
-       
-     
-    },
-    containerLogo: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 100,
-    },
-    containerLogin: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mercado: {
-        width: 500,
-        height: 250,
-    },
-    login: {
-        width: 100,
-        height: 100,
-        borderRadius: 20,
-     
-    },
+    /*  container: {
+          flex: 1,
+          backgroundColor: '#880000'
+      },*/
     containerHeader: {
-        marginTop: '5%',
+        marginTop: '14%',
         marginBottom: '8%',
         paddingStart: '5%',
     },
     message: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: "#FFF"
+        fontSize: 20,
+      textDecoration: 'justify',
+        alignItems: 'center',
+        marginTop: 10,
+        color: '#000',
+        paddingHorizontal: 40,
     },
     containerForm: {
         backgroundColor: "#FFF",
-        flex: 2,
+        flex: 1,
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         paddingStart: "5%",
         paddingEnd: "5%"
     },
+    login: {
+        width: 100,
+        height: 100,
+        borderRadius: 20,
+        marginLeft: 150,
+        top: 40,
+    },
     title: {
         fontSize: 20,
-        marginTop: 18,
+        marginTop: 16,
     },
     input: {
         borderBottomWidth: 1,
@@ -138,7 +130,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         justifyContent: 'center',
         alignItems: 'center',
- 
     },
     buttonText: {
         color: "#FFF",
@@ -150,9 +141,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     registerText: {
-        color: '#000',
-        height:100,
-        top: -10,
+        color: '#a1a1a1'
     },
     buttonVoltar: {
         color: "#FFF",
