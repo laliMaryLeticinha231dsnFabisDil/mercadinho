@@ -7,7 +7,6 @@ import CarrinhoScreen from './pages/carrinhoScreen';
 import CalculadoraScreen from './pages/CalculadoraScreen';
 import PerfilScreen from './pages/PerfilScreen';
 import CompraScreen from './pages/compraScreen';
-import HistoricoScreen from './pages/HistoricoScreen';
 import ReceitaScreen from './pages/ReceitaScreen';
 import CadastroScreen from './pages/CadastroScreen';
 import Frutas from './pages/frutas';
@@ -38,7 +37,6 @@ const HomeStack = () => {
       <Stack.Screen name="carnes" component={Carnes} options={{ headerShown: false }} />
       <Stack.Screen name="higienepessoal" component={HigienePessoal} options={{ headerShown: false }} />
       <Stack.Screen name="produtosdelimpeza" component={ProdutosLimpeza} options={{ headerShown: false }} />
-      <Stack.Screen name="Historico" component={HistoricoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerShown: false }} />

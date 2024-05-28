@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   
 });
 
-/*export default Frutas;*/
+export default Frutas;

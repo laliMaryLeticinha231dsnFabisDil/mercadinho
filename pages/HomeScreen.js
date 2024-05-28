@@ -40,16 +40,7 @@ const HomeScreen = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => handleNavigate('Historico')}>
-          <View style={styles.imagemDois}>
-            <Image
-              source={require('../assets/imagem2.png')}
-              style={styles.ImagemEstiloDois}
-            />
-            <Text style={styles.text}>HISTÓRICO DE{"\n"}COMPRA</Text>
-          </View>
-        </TouchableOpacity>
-
+        
         <TouchableOpacity onPress={() => handleNavigate('Cadastro')}>
           <View style={styles.imagemTres}>
             <Image
