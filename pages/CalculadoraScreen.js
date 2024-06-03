@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
 const ListaDeCompras = () => {
   const [item, setItem] = useState('');
@@ -73,7 +73,9 @@ const ListaDeCompras = () => {
           onChangeText={text => setQuantidade(text)}
         />
       </View>
-      <Button title="Adicionar" onPress={adicionarItem} />
+      <TouchableOpacity style={styles.button} onPress={adicionarItem}>
+        <Text style={styles.buttonText}>Adicionar</Text>
+      </TouchableOpacity>
       <FlatList
         style={styles.lista}
         data={lista}
@@ -83,18 +85,18 @@ const ListaDeCompras = () => {
               {item.nome} - R$ {item.preco.toFixed(2)} - Qtd: {item.quantidade}
             </Text>
             <View style={styles.buttonsContainer}>
-              <Button title="Remover" onPress={() => removerItem(index)} />
-              
-            
-
-
+              <TouchableOpacity style={styles.removeButton} onPress={() => removerItem(index)}>
+                <Text style={styles.buttonText}>Remover</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
       <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
-      <Button title="Limpar Lista" onPress={limparLista} />
+      <TouchableOpacity style={styles.clearButton} onPress={limparLista}>
+        <Text style={styles.buttonText}>Limpar Lista</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -105,10 +107,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
+    paddingTop: 50, // Added paddingTop to move inputs down
   },
   inputContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 20, // Increased margin to move inputs further down
   },
   input: {
     flex: 1,
@@ -143,15 +146,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  inputQuantidade: {
-    width: 60,
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
+  button: {
+    backgroundColor: '#5C0D14',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  removeButton: {
+    backgroundColor: '#d9534f',
+    paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: '#fff',
     marginLeft: 10,
+  },
+  clearButton: {
+    backgroundColor: '#5C0D14',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   total: {
     fontSize: 18,

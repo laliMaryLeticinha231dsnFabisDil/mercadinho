@@ -20,6 +20,7 @@ import HigienePessoal from './pages/higienepessoal';
 import ProdutosLimpeza from './pages/produtosdelimpeza';
 import { createStackNavigator } from '@react-navigation/stack';
 import limpeza from './pages/produtosdelimpeza';
+import LoginScreen from './pages/LoginScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,6 +28,7 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
+      
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Compra" component={CompraScreen} options={{ headerShown: false }} />
       <Stack.Screen name="frutas" component={Frutas} options={{ headerShown: false }} />
@@ -41,6 +43,7 @@ const HomeStack = () => {
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

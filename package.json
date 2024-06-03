@@ -32,7 +32,8 @@
     "react-native-snap-carousel": "^1.6.1",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "^0.19.12",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "expo-image-picker": "~15.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

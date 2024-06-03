@@ -3,24 +3,32 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-const CadastroScreen = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [age, setAge] = useState('');
-  const [birthDate, setBirthDate] = useState('');
   const navigation = useNavigation();
 
-  const handleRegister = async () => {
-    const user = { email, password, phone, age, birthDate };
-    await AsyncStorage.setItem('user', JSON.stringify(user));
-    Alert.alert('Sucesso.', 'Cadastro realizado com sucesso');
-    navigation.navigate('Login');
+  const handleLogin = async () => {
+    try {
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        if (user.email === email && user.password === password) {
+          navigation.replace('Home');
+        } else {
+          Alert.alert('Error', 'Seus dados estão inválidos');
+        }
+      } else {
+        Alert.alert('Error', ' Você não possui um cadastro!.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
+      <Text style={styles.title}>Login</Text>
       <TextInput
         placeholder="Email"
         value={email}
@@ -34,26 +42,11 @@ const CadastroScreen = () => {
         secureTextEntry
         style={styles.input}
       />
-      <TextInput
-        placeholder="Telefone"
-        value={phone}
-        onChangeText={setPhone}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Idade"
-        value={age}
-        onChangeText={setAge}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Data de nascimento"
-        value={birthDate}
-        onChangeText={setBirthDate}
-        style={styles.input}
-      />
-      <TouchableOpacity onPress={handleRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Cadastra-se</Text>
+      <TouchableOpacity onPress={handleLogin} style={styles.button}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={styles.link}>
+        <Text style={styles.linkText}>não possui uma conta? Cadastra-se</Text>
       </TouchableOpacity>
     </View>
   );
@@ -88,6 +81,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
+  link: {
+    marginTop: 12,
+    alignItems: 'center',
+  },
+  linkText: {
+    color: '#5C0D14',
+  },
 });
 
-export default CadastroScreen;
+export default LoginScreen;

@@ -41,7 +41,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         
-        <TouchableOpacity onPress={() => handleNavigate('Cadastro')}>
+        <TouchableOpacity onPress={() => handleNavigate('Login')}>
           <View style={styles.imagemTres}>
             <Image
               source={require('../assets/imagem3.png')}
