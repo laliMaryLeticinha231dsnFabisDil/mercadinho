@@ -1,193 +1,71 @@
-/*import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const Carrinho = ({ route, navigation }) => {
-  const [cartItems, setCartItems] = useState([]);
-
-  useEffect(() => {
-    const loadCart = async () => {
-      try {
-        const cart = await AsyncStorage.getItem('carrinho');
-        setCartItems(cart ? JSON.parse(cart) : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadCart();
-  }, []);
-
-  const updateCart = async (updatedCartItems) => {
-    try {
-      setCartItems(updatedCartItems);
-      await AsyncStorage.setItem('carrinho', JSON.stringify(updatedCartItems));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const incrementQuantity = async (productId) => {
-    const updatedCartItems = cartItems.map(item => {
-      if (item.id === productId) {
-        return { ...item, quantidade: item.quantidade + 1 };
-      }
-      return item;
-    });
-    updateCart(updatedCartItems);
-    await updateFrutasQuantity(productId, 1);
-  };
-
-  const decrementQuantity = async (productId) => {
-    const updatedCartItems = cartItems.map(item => {
-      if (item.id === productId && item.quantidade > 1) {
-        return { ...item, quantidade: item.quantidade - 1 };
-      }
-      return item;
-    });
-    updateCart(updatedCartItems);
-    await updateFrutasQuantity(productId, -1);
-  };
-
-  const clearCart = async () => {
-    try {
-      await AsyncStorage.removeItem('carrinho');
-      setCartItems([]);
-      alert('Carrinho limpo!');
-      
-      // Resetar as quantidades das frutas
-      if (route.params && route.params.resetQuantities) {
-        route.params.resetQuantities();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateFrutasQuantity = async (id, delta) => {
-    try {
-      const storedFrutas = await AsyncStorage.getItem('frutas');
-      let frutas = storedFrutas ? JSON.parse(storedFrutas) : [];
-
-      const updatedFrutas = frutas.map(f =>
-        f.id === id ? { ...f, quantidade: Math.max(f.quantidade + delta, 0) } : f
-      );
-
-      await AsyncStorage.setItem('frutas', JSON.stringify(updatedFrutas));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={cartItems}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.cartItem}>
-            <Text>{item.nome}</Text>
-            <Text>R$ {item.preco.toFixed(2)}</Text>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity onPress={() => decrementQuantity(item.id)} style={styles.button}>
-                <Text>-1</Text>
-              </TouchableOpacity>
-              <Text>{item.quantidade}</Text>
-              <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.button}>
-                <Text>+1</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      />
-      <Button title="Limpar Carrinho" onPress={clearCart} />
-      <Button title="Voltar as Frutas" onPress={() => navigation.navigate('frutas')}></Button>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  cartItem: {
-    marginBottom: 20,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  button: {
-    marginHorizontal: 10,
-    padding: 10,
-    backgroundColor: '#ddd',
-    borderRadius: 5,
-  },
-});
-
-export default Carrinho;
-*/
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Carrinho = () => {
+const Carrinho = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    const loadCart = async () => {
-      try {
-        const cart = await AsyncStorage.getItem('carrinho');
-        setCartItems(cart ? JSON.parse(cart) : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     loadCart();
   }, []);
 
-  const updateCart = async (updatedCartItems) => {
+  const loadCart = async () => {
     try {
-      setCartItems(updatedCartItems);
-      await AsyncStorage.setItem('carrinho', JSON.stringify(updatedCartItems));
+      const cartData = await AsyncStorage.getItem('cart');
+      setCartItems(cartData ? JSON.parse(cartData) : []);
     } catch (error) {
-      console.error(error);
+      console.error('Error loading cart data:', error);
+      Alert.alert('Erro', 'Erro ao carregar o carrinho.');
+    }
+  };
+
+  const saveCart = async (newCart) => {
+    try {
+      setCartItems(newCart);
+      await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+    } catch (error) {
+      console.error('Error saving cart data:', error);
+      Alert.alert('Erro', 'Erro ao salvar o carrinho.');
     }
   };
 
   const incrementQuantity = (productId) => {
     const updatedCartItems = cartItems.map(item => {
       if (item.id === productId) {
-        return { ...item, quantidade: item.quantidade + 1 };
+        return { ...item, quantity: item.quantity + 1 };
       }
       return item;
     });
-    updateCart(updatedCartItems);
+    saveCart(updatedCartItems);
   };
 
   const decrementQuantity = (productId) => {
     const updatedCartItems = cartItems.map(item => {
-      if (item.id === productId && item.quantidade > 1) {
-        return { ...item, quantidade: item.quantidade - 1 };
+      if (item.id === productId && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
       }
       return item;
     });
-    updateCart(updatedCartItems);
+    saveCart(updatedCartItems);
   };
 
   const clearCart = async () => {
     try {
-      await AsyncStorage.removeItem('carrinho');
+      await AsyncStorage.removeItem('cart');
       setCartItems([]);
-      alert('Carrinho limpo!');
+      Alert.alert('Sucesso', 'Carrinho limpo!');
     } catch (error) {
-      console.error(error);
+      console.error('Error clearing cart:', error);
+      Alert.alert('Erro', 'Erro ao limpar o carrinho.');
     }
+  };
+
+  const calculateTotal = () => {
+    let total = 0;
+    cartItems.forEach(item => {
+      total += item.price * item.quantity;
+    });
+    return total.toFixed(2);
   };
 
   return (
@@ -197,21 +75,27 @@ const Carrinho = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.cartItem}>
-            <Text>{item.nome}</Text>
-            <Text>R$ {item.preco.toFixed(2)}</Text>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity onPress={() => decrementQuantity(item.id)} style={styles.button}>
-                <Text>-</Text>
-              </TouchableOpacity>
-              <Text>{item.quantidade}</Text>
-              <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.button}>
-                <Text>+</Text>
-              </TouchableOpacity>
+            <Image source={item.image} style={styles.image} />
+            <View style={styles.itemInfo}>
+              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={styles.itemPrice}>R$ {item.price.toFixed(2)}</Text>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity onPress={() => decrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text style={styles.quantityButtonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantityText}>{item.quantity}</Text>
+                <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text style={styles.quantityButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}
       />
-      <Button title="Limpar Carrinho" onPress={clearCart} />
+      <View style={styles.totalContainer}>
+        <Text style={styles.total}>Total: R$ {calculateTotal()}</Text>
+      </View>
+      <Button title="Limpar Carrinho" onPress={clearCart} color="#FFD166" />
     </View>
   );
 };
@@ -220,22 +104,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#fff',
   },
   cartItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
     padding: 10,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
+    backgroundColor: '#f9f9f9',
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  itemPrice: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  button: {
-    marginHorizontal: 10,
-    padding: 10,
+  quantityButton: {
+    padding: 5,
     backgroundColor: '#ddd',
     borderRadius: 5,
+  },
+  quantityButtonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  quantityText: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  totalContainer: {
+    alignItems: 'flex-end',
+    marginTop: 20,
+  },
+  total: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
 

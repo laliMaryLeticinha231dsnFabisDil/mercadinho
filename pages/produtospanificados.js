@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Button, Image, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Stack = createStackNavigator();
+
 const products = [
   { id: '1', name: 'Pão Puma', price: 8.99, image: require('../assets/pao.png') },
   { id: '2', name: 'Bisnaguinha Panco', price: 7.99, image: require('../assets/bisnaguinha.png') },
@@ -17,25 +16,67 @@ const products = [
   { id: '10', name: 'Sequilhos Banco', price: 11.50, image: require('../assets/sequilhos.png') },
   { id: '11', name: 'Cookies', price: 3.25, image: require('../assets/cookies.png') },
 ];
-const panificados = ({ navigation }) => {
+
+const ProdutosPanificacao = ({ navigation }) => {
   const [cart, setCart] = useState([]);
+  const [quantities, setQuantities] = useState(products.reduce((acc, product) => {
+    acc[product.id] = 0;
+    return acc;
+  }, {}));
+
+  useEffect(() => {
+    loadCart();
+  }, []);
+
+  const loadCart = async () => {
+    try {
+      const cartData = await AsyncStorage.getItem('cart');
+      if (cartData) {
+        setCart(JSON.parse(cartData));
+      }
+    } catch (error) {
+      console.log('Error loading cart data:', error);
+    }
+  };
+
+  const saveCart = async (newCart) => {
+    try {
+      await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+    } catch (error) {
+      console.log('Error saving cart data:', error);
+    }
+  };
 
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const itemInCart = prevCart.find((item) => item.id === product.id);
-      if (itemInCart) {
-        return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
-    });
+    if (quantities[product.id] > 0) {
+      const updatedCart = cart.some(item => item.id === product.id) ?
+        cart.map(item => item.id === product.id ? { ...item, quantity: item.quantity + quantities[product.id] } : item) :
+        [...cart, { ...product, quantity: quantities[product.id] }];
+  
+      setCart(updatedCart);
+      saveCart(updatedCart); // Salva o carrinho no AsyncStorage
+      navigation.navigate('Carrinho');
+    } else {
+      alert('Adicione uma quantidade maior que zero.');
+    }
+  };
+  const incrementQuantity = (productId) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: prevQuantities[productId] + 1
+    }));
+  };
+
+  const decrementQuantity = (productId) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: prevQuantities[productId] > 0 ? prevQuantities[productId] - 1 : 0
+    }));
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header1}>Grãos</Text>
+      <Text style={styles.header2}>PRODUTOS PANIFICADOS</Text>
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
@@ -45,13 +86,22 @@ const panificados = ({ navigation }) => {
             <View style={styles.productInfo}>
               <Text style={styles.productName}>{item.name}</Text>
               <Text>R$ {item.price.toFixed(2)}</Text>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity onPress={() => decrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text>-</Text>
+                </TouchableOpacity>
+                <Text>{quantities[item.id]}</Text>
+                <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Button title="Adicionar" onPress={() => addToCart(item)} color="#FFD166" />
+            <Button title={`Adicionar ${quantities[item.id] > 0 ? `+${quantities[item.id]}` : ''}`} onPress={() => addToCart(item)} color="#FFD166" />
           </View>
         )}
       />
       <TouchableOpacity
-        onPress={() => navigation.navigate('Cart', { cart })}
+        onPress={() => navigation.navigate('Carrinho')}
         style={styles.checkoutButton}
       >
         <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
@@ -66,7 +116,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  header1: {
+  header2: {
     fontSize: 24,
     fontWeight: 'bold',
     marginVertical: 10,
@@ -98,6 +148,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  quantityButton: {
+    padding: 10,
+    backgroundColor: '#ddd',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
   checkoutButton: {
     backgroundColor: '#FFD166',
     padding: 10,
@@ -112,4 +173,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default panificados;
+      
+      export default ProdutosPanificacao;

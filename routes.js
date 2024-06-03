@@ -19,6 +19,7 @@ import Carnes from './pages/carnes';
 import HigienePessoal from './pages/higienepessoal';
 import ProdutosLimpeza from './pages/produtosdelimpeza';
 import { createStackNavigator } from '@react-navigation/stack';
+import limpeza from './pages/produtosdelimpeza';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,7 +37,7 @@ const HomeStack = () => {
       <Stack.Screen name="produtosprocessados" component={ProdutosProcessados} options={{ headerShown: false }} />
       <Stack.Screen name="carnes" component={Carnes} options={{ headerShown: false }} />
       <Stack.Screen name="higienepessoal" component={HigienePessoal} options={{ headerShown: false }} />
-      <Stack.Screen name="produtosdelimpeza" component={ProdutosLimpeza} options={{ headerShown: false }} />
+      <Stack.Screen name="produtosdelimpeza" component={limpeza} options={{ headerShown: false }} />
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerShown: false }} />
@@ -75,37 +76,37 @@ const Routes = () => {
           },
         }}
       >
-        <Tab.Screen 
-          name="Home" 
-          component={HomeStack} 
-          options={{ 
-            tabBarLabel: '', 
-            headerShown: false 
-          }} 
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            tabBarLabel: '',
+            headerShown: false
+          }}
         />
-        <Tab.Screen 
-          name="Carrinho" 
-          component={CarrinhoScreen} 
-          options={{ 
-            tabBarLabel: '', 
-            headerShown: false 
-          }} 
+        <Tab.Screen
+          name="Carrinho"
+          component={CarrinhoScreen}
+          options={{
+            tabBarLabel: '',
+            headerShown: false
+          }}
         />
-        <Tab.Screen 
-          name="Calculadora" 
-          component={CalculadoraScreen} 
-          options={{ 
-            tabBarLabel: '', 
-            headerShown: false 
-          }} 
+        <Tab.Screen
+          name="Calculadora"
+          component={CalculadoraScreen}
+          options={{
+            tabBarLabel: '',
+            headerShown: false
+          }}
         />
-        <Tab.Screen 
-          name="Perfil" 
-          component={PerfilScreen} 
-          options={{ 
-            tabBarLabel: '', 
-            headerShown: false 
-          }} 
+        <Tab.Screen
+          name="Perfil"
+          component={PerfilScreen}
+          options={{
+            tabBarLabel: '',
+            headerShown: false
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>

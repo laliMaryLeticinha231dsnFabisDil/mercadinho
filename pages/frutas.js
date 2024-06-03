@@ -1,123 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+/*import React, { useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Button, Image, StyleSheet } from 'react-native';
 
-const initialFrutas = [
-  { id: '1', nome: 'Maçã', imagem: 'https://via.placeholder.com/100', preco: 2.00, quantidade: 0 },
-  { id: '2', nome: 'Banana', imagem: 'https://via.placeholder.com/100', preco: 1.00, quantidade: 0 },
-  { id: '3', nome: 'Laranja', imagem: 'https://via.placeholder.com/100', preco: 1.50, quantidade: 0 },
-  { id: '4', nome: 'Morango', imagem: 'https://via.placeholder.com/100', preco: 1.50, quantidade: 0 }, // Alterando o nome para 'Morango' como exemplo
+const products = [
+  { id: '1', name: 'Arroz', price: 34.00, image: require('../assets/arroz.png') },
+  { id: '2', name: 'Feijão', price: 7.99, image: require('../assets/feijao.png') },
+  { id: '3', name: 'Açúcar', price: 5.99, image: require('../assets/acucar.png') },
+  { id: '4', name: 'Milho para Pipoca', price: 8.90, image: require('../assets/pipoca.png') },
+  { id: '5', name: 'Farinha de Trigo', price: 4.90, image: require('../assets/trigo.png') },
+  { id: '6', name: 'Farinha de Aveia', price: 9.99, image: require('../assets/aveia.png') },
+  { id: '7', name: 'Granola', price: 15.00, image: require('../assets/granola.png') },
+  { id: '8', name: 'Espaguete N°8', price: 4.99, image: require('../assets/espaguete.png') },
+  { id: '9', name: 'Macarrão Pena', price: 4.99, image: require('../assets/pena.png') },
+  { id: '10', name: 'Macarrão Parafuso', price: 4.99, image: require('../assets/parafuso.png') },
+  { id: '11', name: 'Massa de Bolo sabor chocolate', price: 7.99, image: require('../assets/massachocolate.png') },
+  { id: '12', name: 'Massa de Bolo sabor baunilha', price: 7.99, image: require('../assets/massabaunilha.png') },
+  { id: '13', name: 'Massa de Bolo sabor laranja', price: 7.99, image: require('../assets/massalaranja.png') },
+  { id: '14', name: 'Cereal nestle', price: 9.99, image: require('../assets/nescau.png') },
+  { id: '15', name: 'Sucrilhos', price: 9.99, image: require('../assets/sucrilhos.png') },
 ];
 
+const graos = ({ navigation }) => {
+  const [cart, setCart] = useState([]);
 
-const Frutas = ({ navigation }) => {
-  const [frutas, setFrutas] = useState(initialFrutas);
-
-  useEffect(() => {
-    async function loadFrutas() {
-      try {
-        const storedFrutas = await AsyncStorage.getItem('frutas');
-        if (storedFrutas) {
-          setFrutas(JSON.parse(storedFrutas));
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    loadFrutas();
-
-    // Expondo a função resetQuantities ao componente de navegação
-    navigation.setParams({ resetQuantities });
-  }, [navigation]);
-
-  const updateFrutas = async (id, delta) => {
-    const updatedFrutas = frutas.map(f =>
-      f.id === id ? { ...f, quantidade: Math.max(f.quantidade + delta, 0) } : f
-    );
-    setFrutas(updatedFrutas);
-    await AsyncStorage.setItem('frutas', JSON.stringify(updatedFrutas));
-
-    // Atualizar o carrinho também
-    try {
-      const storedCart = await AsyncStorage.getItem('carrinho');
-      let cart = storedCart ? JSON.parse(storedCart) : [];
-
-      const existingProductIndex = cart.findIndex(item => item.id === id);
-      if (existingProductIndex !== -1) {
-        cart[existingProductIndex].quantidade = Math.max(cart[existingProductIndex].quantidade + delta, 0);
+  const addToCart = (product) => {
+    setCart((prevCart) => {
+      const itemInCart = prevCart.find((item) => item.id === product.id);
+      if (itemInCart) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
       } else {
-        const fruta = updatedFrutas.find(f => f.id === id);
-        if (fruta.quantidade > 0) {
-          cart.push(fruta);
-        }
+        return [...prevCart, { ...product, quantity: 1 }];
       }
-
-      cart = cart.filter(item => item.quantidade > 0);
-
-      await AsyncStorage.setItem('carrinho', JSON.stringify(cart));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const addToCart = async (produto) => {
-    try {
-      const storedCart = await AsyncStorage.getItem('carrinho');
-      let cart = storedCart ? JSON.parse(storedCart) : [];
-
-      const existingProductIndex = cart.findIndex(item => item.id === produto.id);
-      if (existingProductIndex !== -1) {
-        cart[existingProductIndex].quantidade += 1;
-      } else {
-        cart.push({ ...produto, quantidade: 1 });
-      }
-
-      await AsyncStorage.setItem('carrinho', JSON.stringify(cart));
-      alert('Produto adicionado ao carrinho!');
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const resetQuantities = async () => {
-    const resetFrutas = frutas.map(f => ({ ...f, quantidade: 0 }));
-    setFrutas(resetFrutas);
-    await AsyncStorage.setItem('frutas', JSON.stringify(resetFrutas));
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header1}>Frutas</Text>
+      <Text style={styles.header1}>Grãos</Text>
       <FlatList
-        data={frutas}
+        data={products}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.product}>
-  <View style={styles.productDetails}>
-    <Image source={{ uri: item.imagem }} style={styles.image} />
-    <View style={styles.descriptionContainer}>
-      <Text style={styles.productName}>{item.nome}</Text>
-      <Text style={styles.productPrice}>Preço: R$ {item.preco.toFixed(2)}</Text>
-    </View>
-  </View>
-  <View style={styles.quantityContainer}>
-    <TouchableOpacity onPress={() => updateFrutas(item.id, -1)}>
-      <Text style={styles.button}>-</Text>
-    </TouchableOpacity>
-    <Text>{item.quantidade}</Text>
-    <TouchableOpacity onPress={() => updateFrutas(item.id, 1)}>
-      <Text style={styles.button}>+</Text>
-    </TouchableOpacity>
-  </View>
-  <TouchableOpacity style={styles.button} onPress={() => addToCart(item)}>
-    <Text style={styles.buttonText}>Adicionar</Text>
-  </TouchableOpacity>
-</View>
-
-        
+            <Image source={item.image} style={styles.image} />
+            <View style={styles.productInfo}>
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text>R$ {item.price.toFixed(2)}</Text>
+            </View>
+            <Button title="Adicionar" onPress={() => addToCart(item)} color="#FFD166" />
+          </View>
         )}
       />
-      <Button title="Ir para o Carrinho" onPress={() => navigation.navigate('Carrinho', { resetQuantities })} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Cart', { cart })}
+        style={styles.checkoutButton}
+      >
+        <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -126,33 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  product: {
-    marginBottom: 20,
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between', // Para distribuir os botões horizontalmente
-    marginTop: 10, // Adicionando um espaçamento entre o preço e os botões
-  },
-  
-  button: {
-    fontSize: 20,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    backgroundColor: '#FFD166',
-    textAlign: 'center',
-    width: 100,
-    height: 20,
-    borderRadius: 10,
-    marginLeft: 200,
-    top: -100,
+    backgroundColor: '#fff',
   },
   header1: {
     fontSize: 24,
@@ -168,26 +82,215 @@ const styles = StyleSheet.create({
   },
   product: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   },
-  productDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  image: {
+    width: 100,
+    height: 100,
+  },
+  productInfo: {
     flex: 1,
-  },
-  descriptionContainer: {
     marginLeft: 10,
   },
   productName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
-  productPrice: {
-    fontSize: 16,
-    color: '#888',
+  checkoutButton: {
+    backgroundColor: '#FFD166',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
   },
-  
+  checkoutButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+});
+
+export default graos;
+*/
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Button, Image, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const products = [
+  { id: '1', name: 'Banana Prata', price: 6.99, image: require('../assets/banana.png') },
+  { id: '2', name: 'Maça', price: 6.00, image: require('../assets/maca.png') },
+  { id: '3', name: 'Manga', price: 7.99, image: require('../assets/manga.png') },
+  { id: '4', name: 'Laranja', price: 11.99, image: require('../assets/laranja.png') },
+  { id: '5', name: 'Uva Verde', price: 11.99, image: require('../assets/uva.png') },
+  { id: '6', name: 'Melão', price: 10.00, image: require('../assets/melao.png') },
+];
+const Frutas = ({ navigation }) => {
+  const [cart, setCart] = useState([]);
+  const [quantities, setQuantities] = useState(products.reduce((acc, product) => {
+    acc[product.id] = 0;
+    return acc;
+  }, {}));
+
+  useEffect(() => {
+    loadCart();
+  }, []);
+
+  const loadCart = async () => {
+    try {
+      const cartData = await AsyncStorage.getItem('cart');
+      if (cartData) {
+        setCart(JSON.parse(cartData));
+      }
+    } catch (error) {
+      console.log('Error loading cart data:', error);
+    }
+  };
+
+  const saveCart = async (newCart) => {
+    try {
+      await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+    } catch (error) {
+      console.log('Error saving cart data:', error);
+    }
+  };
+
+  const addToCart = (product) => {
+    if (quantities[product.id] > 0) {
+      const updatedCart = cart.some(item => item.id === product.id) ?
+        cart.map(item => item.id === product.id ? { ...item, quantity: item.quantity + quantities[product.id] } : item) :
+        [...cart, { ...product, quantity: quantities[product.id] }];
+
+      setCart(updatedCart);
+      saveCart(updatedCart);
+      navigation.navigate('Carrinho');
+    } else {
+      alert('Adicione uma quantidade maior que zero.');
+    }
+  };
+
+  const incrementQuantity = (productId) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: prevQuantities[productId] + 1
+    }));
+  };
+
+  const decrementQuantity = (productId) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: prevQuantities[productId] > 0 ? prevQuantities[productId] - 1 : 0
+    }));
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header1}>FRUTAS</Text>
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.product}>
+            <Image source={item.image} style={styles.image} />
+            <View style={styles.productInfo}>
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text>R$ {item.price.toFixed(2)}</Text>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity onPress={() => decrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text>-</Text>
+                </TouchableOpacity>
+                <Text>{quantities[item.id]}</Text>
+                <TouchableOpacity onPress={() => incrementQuantity(item.id)} style={styles.quantityButton}>
+                  <Text>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Button title={`Adicionar ${quantities[item.id] > 0 ? `+${quantities[item.id]}` : ''}`} onPress={() => addToCart(item)} color="#FFD166" />
+          </View>
+        )}
+      />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Carrinho')}
+        style={styles.checkoutButton}
+      >
+        <Text style={styles.checkoutButtonText}>Ver Carrinho</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  header1: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    backgroundColor: '#B60952',
+    borderRadius: 30,
+    height: 60,
+    width: 290,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#fff',
+  },
+  product: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  productInfo: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  productName: {
+    fontSize: 20,
+   
+    fontWeight: 'bold',
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  quantityButton: {
+    padding: 10,
+    backgroundColor: '#ddd',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  checkoutButton: {
+    backgroundColor: '#FFD166',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  checkoutButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
 });
 
 export default Frutas;
