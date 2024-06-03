@@ -36,7 +36,7 @@ const HomeScreen = () => {
               source={require('../assets/imagem.png')}
               style={styles.ImagemEstilo}
             />
-            <Text style={styles.text}>FAÇA SUA{"\n"}COMPRA</Text>
+            <Text style={styles.text}>EFETUE SUA{"\n"}COMPRA</Text>
           </View>
         </TouchableOpacity>
 
@@ -47,7 +47,7 @@ const HomeScreen = () => {
               source={require('../assets/imagem3.png')}
               style={styles.ImagemEstiloTres}
             />
-            <Text style={styles.text}>VEJA SEU{"\n"}PERFIL!</Text>
+            <Text style={styles.text}>FAÇA SEU{"\n"}PERFIL</Text>
           </View>
         </TouchableOpacity>
 
@@ -57,10 +57,22 @@ const HomeScreen = () => {
               source={require('../assets/imagem4.png')}
               style={styles.ImagemEstiloQuatro}
             />
-            <Text style={styles.text}>RECEITA DO{"\n"}DIA</Text>
+            <Text style={styles.text}>VEJA A RECEITA{"\n"} DO DIA</Text>
+          </View>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={() => handleNavigate('Receita')}>
+          <View style={styles.imagemQuatro}>
+            <Image
+              source={require('../assets/calculation.png')}
+              style={styles.ImagemEstiloQuatro}
+            />
+            <Text style={styles.text}>MONTE E SOME {"\n"}SUA LISTA</Text>
           </View>
         </TouchableOpacity>
       </View>
+      
     </ScrollView>
   );
 };
