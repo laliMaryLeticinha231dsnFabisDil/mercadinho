@@ -139,7 +139,7 @@ const products = [
   { id: '9', name: 'Tomate', price: 5.99, image: require('../assets/tomate.png') },
 
 ];
-const legumes = ({ navigation }) => {
+const LegumesEVegetais = ({ navigation }) => {
   const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState(products.reduce((acc, product) => {
     acc[product.id] = 0;
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 20,
-   
+
     fontWeight: 'bold',
   },
   quantityContainer: {
@@ -297,4 +297,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default legumes;
+export default LegumesEVegetais;

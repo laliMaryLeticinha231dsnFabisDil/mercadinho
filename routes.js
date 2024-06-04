@@ -39,7 +39,7 @@ const HomeStack = () => {
       <Stack.Screen name="produtosprocessados" component={ProdutosProcessados} options={{ headerShown: false }} />
       <Stack.Screen name="carnes" component={Carnes} options={{ headerShown: false }} />
       <Stack.Screen name="higienepessoal" component={HigienePessoal} options={{ headerShown: false }} />
-      <Stack.Screen name="produtosdelimpeza" component={limpeza} options={{ headerShown: false }} />
+      <Stack.Screen name="produtosdelimpeza" component={ProdutosLimpeza} options={{ headerShown: false }} />
       <Stack.Screen name="Receita" component={ReceitaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerShown: false }} />

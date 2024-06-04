@@ -41,12 +41,6 @@ const CadastroScreen = () => {
         style={styles.input}
       />
       <TextInput
-        placeholder="Idade"
-        value={age}
-        onChangeText={setAge}
-        style={styles.input}
-      />
-      <TextInput
         placeholder="Data de nascimento"
         value={birthDate}
         onChangeText={setBirthDate}

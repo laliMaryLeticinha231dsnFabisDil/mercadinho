@@ -139,7 +139,7 @@ const products = [
 ];
 
 
-const limpeza = ({ navigation }) => {
+const ProdutosLimpeza = ({ navigation }) => {
   const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState(products.reduce((acc, product) => {
     acc[product.id] = 0;
@@ -297,4 +297,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default limpeza;
+export default ProdutosLimpeza;

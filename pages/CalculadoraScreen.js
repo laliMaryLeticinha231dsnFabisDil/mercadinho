@@ -9,6 +9,7 @@ const ListaDeCompras = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    
     calcularTotal();
   }, [lista]);
 
@@ -89,6 +90,7 @@ const ListaDeCompras = () => {
                 <Text style={styles.buttonText}>Remover</Text>
               </TouchableOpacity>
             </View>
+            
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}

@@ -62,7 +62,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
 
-        <TouchableOpacity onPress={() => handleNavigate('Receita')}>
+        <TouchableOpacity onPress={() => handleNavigate('Calculadora')}>
           <View style={styles.imagemQuatro}>
             <Image
               source={require('../assets/calculation.png')}
